@@ -10,7 +10,7 @@ import com.example.mygitclient.model.RepositoryResult
 
 class RepoAdapter (private val repoList: List<RepositoryResult>, private val repoAdapterDelegate: RepoAdaterDelegate) : RecyclerView.Adapter<RepoAdapter.CustomViewHolder>(){
     interface RepoAdaterDelegate{
-        fun goToRep()
+        fun goToRepo(user: String, repo: String)
     }
 
     override fun onCreateViewHolder(
@@ -27,6 +27,9 @@ class RepoAdapter (private val repoList: List<RepositoryResult>, private val rep
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.apply {
             repoName.text = repoList[position].name
+            repoName.setOnClickListener{
+                repoAdapterDelegate.goToRepo(repoList[position].owner.login, repoList[position].name)
+            }
         }
     }
 

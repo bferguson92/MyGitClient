@@ -1,5 +1,6 @@
 package com.example.mygitclient.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,7 +14,7 @@ import com.example.mygitclient.presenter.GitContract
 import com.example.mygitclient.presenter.GitPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), GitContract.View {
+class MainActivity : AppCompatActivity(), GitContract.View, RepoAdapter.RepoAdaterDelegate{
 
     val gitPresenter = GitPresenter(this)
 
@@ -30,14 +31,9 @@ class MainActivity : AppCompatActivity(), GitContract.View {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-//        supportActionBar?.hide()
-    }
 
     override fun displayRepos(repoList: List<RepositoryResult>) {
-        recycler_view_repos.adapter = RepoAdapter(repoList)
+        recycler_view_repos.adapter = RepoAdapter(repoList, this)
         recycler_view_repos.layoutManager = LinearLayoutManager(this)
 
     }
@@ -48,5 +44,14 @@ class MainActivity : AppCompatActivity(), GitContract.View {
     }
 
     override fun sendError() {
+    }
+
+    override fun goToRepo(user: String, repo: String) {
+        val intent = Intent(this, RepoActivity::class.java)
+
+        intent.putExtra("user", user)
+        intent.putExtra("repo", repo)
+
+        startActivity(intent)
     }
 }

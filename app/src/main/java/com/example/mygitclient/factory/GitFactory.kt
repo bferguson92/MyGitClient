@@ -1,5 +1,6 @@
 package com.example.mygitclient.factory
 
+import com.example.mygitclient.model.CommitResult
 import com.example.mygitclient.model.Owner
 import com.example.mygitclient.model.RepositoryResult
 import com.example.mygitclient.util.Constants
@@ -32,5 +33,9 @@ class GitFactory {
 
     fun getUser(user: String): Call<Owner>{
         return gitService.getUser(user)
+    }
+
+    fun getRepoCommits(user: String, repo: String): Call<List<CommitResult>>{
+        return gitService.getRepoCommits(user, repo)
     }
 }
