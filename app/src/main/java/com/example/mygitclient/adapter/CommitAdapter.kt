@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.example.mygitclient.R
 import com.example.mygitclient.model.CommitResult
-import com.example.mygitclient.view.RepoActivity
 
 class CommitAdapter(private val commitList: List<CommitResult>) : RecyclerView.Adapter<CommitAdapter.CustomViewHolder>(){
     private lateinit var glide: RequestManager

@@ -1,9 +1,12 @@
 package com.example.mygitclient.view
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.mygitclient.R
@@ -12,9 +15,11 @@ import com.example.mygitclient.model.Owner
 import com.example.mygitclient.model.RepositoryResult
 import com.example.mygitclient.presenter.GitContract
 import com.example.mygitclient.presenter.GitPresenter
+import com.example.mygitclient.receiver.AlarmReciever
+import com.example.mygitclient.util.Constants
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), GitContract.View, RepoAdapter.RepoAdaterDelegate{
+class MainActivity : AppCompatActivity(), GitContract.View, RepoAdapter.RepoAdaterDelegate {
 
     private val gitPresenter = GitPresenter(this)
 
@@ -23,9 +28,24 @@ class MainActivity : AppCompatActivity(), GitContract.View, RepoAdapter.RepoAdat
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            Constants.ALARM_REQUEST_CODE,
+            Intent(this, AlarmReciever::class.java),
+            0
+        )
+
+        alarmManager.set(
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis() + (600000),
+            pendingIntent
+            )
 
 
-        button_enter.setOnClickListener{
+
+
+        button_enter.setOnClickListener {
             gitPresenter.getRepos(edit_text_user.text.toString())
             gitPresenter.getUser(edit_text_user.text.toString())
         }
