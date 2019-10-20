@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), GitContract.View, RepoAdapter.RepoAdaterDelegate{
 
-    val gitPresenter = GitPresenter(this)
+    private val gitPresenter = GitPresenter(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity(), GitContract.View, RepoAdapter.RepoAdat
     override fun displayRepos(repoList: List<RepositoryResult>) {
         recycler_view_repos.adapter = RepoAdapter(repoList, this)
         recycler_view_repos.layoutManager = LinearLayoutManager(this)
-
     }
 
     override fun displayUser(user: Owner) {

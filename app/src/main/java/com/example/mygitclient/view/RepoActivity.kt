@@ -3,7 +3,9 @@ package com.example.mygitclient.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mygitclient.R
+import com.example.mygitclient.adapter.CommitAdapter
 import com.example.mygitclient.factory.GitFactory
 import com.example.mygitclient.model.CommitResult
 import com.example.mygitclient.presenter.CommitContract
@@ -28,12 +30,8 @@ class RepoActivity : AppCompatActivity(), CommitContract.View {
     }
 
     override fun displayCommits(commits: List<CommitResult>) {
-        val stringBuilder = StringBuilder()
+        recycler_view_commits.adapter = CommitAdapter(commits)
+        recycler_view_commits.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        commits.forEach{commit->
-            stringBuilder.append("${commit.author.login}\n")
-        }
-
-        text_view_commits.text= stringBuilder
     }
 }
